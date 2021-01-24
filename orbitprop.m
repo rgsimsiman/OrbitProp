@@ -1,7 +1,6 @@
-function answer_table = ASTE580_Computer_Project(r0, v0, centralbody, dt)
-%Name: ASTE580_Computer_Project
+function answer_table = orbitprop(r0, v0, centralbody, dt)
+%Name: orbitprop
 %Author: Rob Simsiman
-%Date: 4/22/2020
 %
 %Purpose: Given initial position and velocity vectors, central body
 %           parameters, and change in time, this function determines the
@@ -18,10 +17,10 @@ function answer_table = ASTE580_Computer_Project(r0, v0, centralbody, dt)
 %                           Project Handout
 
 %Set constants of central body
-T = readtable('Astronomical_Constants.xlsx');
-centralbody_idx = find(strcmp(lower(T.Body), lower(centralbody)));
-mu = T.mu_km_3_s_2_(centralbody_idx);
-R = T.R_km_(centralbody_idx);
+addpath(genpath('./utils'));
+centralbody_props = PlanetaryConstants(centralbody);
+mu = centralbody_props.Mu;
+R = centralbody_props.R;
 
 %Find the eccentricity to determine the type of orbit
 evect = (1/mu)*((norm(v0)^2 - (mu/norm(r0)))*r0 - dot(r0, v0)*v0); %Eccentricity vector
