@@ -1,28 +1,29 @@
-function PlanetaryConstants = PlanetaryConstants(bodies)
-    % This function generates the planetary constants to be used in orbit
-    % propagation.
-    %
-    % More planetary body constants can be added as necessary.
-    %
-    %   Inputs:
-    %       bodies (1xN cell) - List of names of bodies (i.e. Earth, Sun,
-    %       etc.)
-    %
-    %   Outputs:
-    %       PlanetaryConstants (Nx3 structure) - Structure of planetary
-    %       constants
-    %           Body (string) - Name of body
-    %           Mu (double) - Gravitational Parameter (km^3/s^2)
-    %           R  (double) - Body Radius (km)
-    
+function [PlanetaryConstants, err] = PlanetaryConstants(bodies)
+% This function generates the planetary constants to be used in orbit
+% propagation.
+%
+% More planetary body constants can be added as necessary.
+%
+%   Inputs:
+%       bodies (1xN cell) - List of names of bodies (i.e. Earth, Sun,
+%       etc.)
+%
+%   Outputs:
+%       PlanetaryConstants (Nx3 structure) - Structure of planetary
+%       constants
+%           Body (string) - Name of body
+%           Mu (double) - Gravitational Parameter (km^3/s^2)
+%           R  (double) - Body Radius (km)
+
+try
     %Initialize structure
     PlanetaryConstants = struct();
     
     %List of bodies
-%     planets = {'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', ...
-%         'Uranus', 'Neptune', 'Pluto'};
-%     sun = 'Sun';
-%     bodies = [planets sun];
+    %     planets = {'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', ...
+    %         'Uranus', 'Neptune', 'Pluto'};
+    %     sun = 'Sun';
+    %     bodies = [planets sun];
     
     %Populate structure with constants
     if ~iscell(bodies) == 1
@@ -67,4 +68,7 @@ function PlanetaryConstants = PlanetaryConstants(bodies)
                     bodies{i} '. Add the body and its constants to PlanetaryConstants.']);
         end
     end
+    err = [];
+    
+catch err
 end
