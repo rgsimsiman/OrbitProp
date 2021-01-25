@@ -63,6 +63,9 @@ try
             case 'sun'
                 PlanetaryConstants(i).Mu = 132712440017.987;
                 PlanetaryConstants(i).R = 696000;
+			case 'titan'
+				PlanetaryConstants(i).Mu = 8978.1382;
+				PlanetaryConstants(i).R = 2574.73;
             otherwise
                 error(['The following body is not yet supported: ' ...
                     bodies{i} '. Add the body and its constants to PlanetaryConstants utility function.']);
