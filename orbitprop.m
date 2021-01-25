@@ -146,6 +146,11 @@ end
 %     crash(2) = "NO";
 % end
 
+%Initialize plotting variables
+plot_x = r0(1);
+plot_y = r0(2);
+plot_z = r0(3);
+
 %Propagate the new position and velocity vectors at time t
 tolerance = 10^-12; %Error tolerance between x and xnew
 while 1
@@ -176,13 +181,24 @@ while 1
         break
     end
     x = xnew;
+    
+    rt = (1 - ((x^2/norm(r0))*C))*r0 + (dt - ((x^3/sqrt(mu))*S))*v0; %Position vector (km)
+    plot_x(end + 1) = rt(1);
+    plot_y(end + 1) = rt(2);
+    plot_z(end + 1) = rt(3);
 end
 
 %Determine new positiona and velocity vectors after dt seconds
 rt = (1 - ((x^2/norm(r0))*C))*r0 + (dt - ((x^3/sqrt(mu))*S))*v0; %Position vector (km)
+plot_x(end + 1) = rt(1);
+plot_y(end + 1) = rt(2);
+plot_z(end + 1) = rt(3);
 % fprintf('The position vector after dt = %f sec is r(t) = (%f, %f, %f) km\n', dt, rt(1), rt(2), rt(3));
 vt = (sqrt(mu)/(norm(rt)*norm(r0)))*(alpha0*x^3*S - x)*r0 + (1-((x^2/norm(rt))*C))*v0; %Velocity vector (km/s)
 % fprintf('The velocity vector after dt = %f sec is v(t) = (%f, %f, %f) km/s\n', dt, vt(1), vt(2), vt(3));
+
+%Plot orbit
+plot3(plot_x, plot_y, plot_z);
 
 % %Construct table of answers
 % row1 = {orbit_shape(1)}; %State orbit shape
