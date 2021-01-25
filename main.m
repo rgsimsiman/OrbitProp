@@ -10,7 +10,8 @@ prompt = {'Enter initial position vector (rx, ry, rz) in km:', ...
     'Enter time step in s:'};
 dlgtitle = 'Input';
 dims = [1 70];
-answer = inputdlg(prompt,dlgtitle,dims);
+definput = {'-14192.498 -16471.197 -1611.2886', '-4.0072937 -1.2757932 1.9314620', 'Earth', '01-Jan-2021 00:00:00', '01-Jan-2021 08:00:00', '60'};
+answer = inputdlg(prompt, dlgtitle, dims, definput);
 
 % Check for valid inputs
 if length(str2num(answer{1})) ~= 3
