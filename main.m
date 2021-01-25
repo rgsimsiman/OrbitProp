@@ -10,7 +10,15 @@ prompt = {'Enter initial position vector (rx, ry, rz) in km:', ...
     'Enter time step in s:'};
 dlgtitle = 'Input';
 dims = [1 70];
-definput = {'-14192.498 -16471.197 -1611.2886', '-4.0072937 -1.2757932 1.9314620', 'Earth', '01-Jan-2021 00:00:00', '01-Jan-2021 08:00:00', '60'};
+default_position = '';
+default_velocity = '';
+default_centralbody = 'Earth';
+[current_year, current_month, current_day] = ymd(datetime(clock));
+default_start = [datestr(datetime(y, m, d)) ' 00:00:00'];
+default_stop = [datestr(datetime(y, m, d) + days(1)) ' 00:00:00'];
+default_timestep = '';
+definput = {default_position, default_velocity, default_centralbody, ...
+    default_start, default_stop, default_timestep};
 answer = inputdlg(prompt, dlgtitle, dims, definput);
 
 % Check for valid inputs
