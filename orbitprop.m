@@ -1,4 +1,4 @@
-function orbitprop(r0, v0, centralbody, dt)
+function orbitprop(r0, v0, centralbody, duration, dt)
 %Name: orbitprop
 %Author: Rob Simsiman
 %
@@ -11,6 +11,7 @@ function orbitprop(r0, v0, centralbody, dt)
 %Inputs:    r0 - initial position vector
 %           v0 - initial velocity vector
 %           centralbody - string indicating the central body
+%           duration - amount of seconds to propagate
 %           dt - change in time
 
 %Set constants of central body
@@ -144,54 +145,61 @@ end
 % end
 
 %Initialize plotting variables
-plot_x = r0(1);
-plot_y = r0(2);
-plot_z = r0(3);
+steps = floor(duration/dt);
+plot_x = zeros(1, steps + 1);
+plot_y = zeros(1, steps + 1);
+plot_z = zeros(1, steps + 1);
+plot_x(1) = r0(1);
+plot_y(1) = r0(2);
+plot_z(1) = r0(3);
 
 %Propagate the new position and velocity vectors at time t
 tolerance = 10^-12; %Error tolerance between x and xnew
-while 1
-    SCInput = alpha0 * x^2; %Input to the S and C functions
-    
-    %Determine S and C functions according to input value
-    if SCInput > 10^-7
-        S = (sqrt(SCInput) - sin(sqrt(SCInput)))/(sqrt(SCInput))^3;
-        C = (1 - cos(sqrt(SCInput)))/SCInput;
-    elseif SCInput < -10^-7
-        S = (sinh(sqrt(-SCInput)) - sqrt(-SCInput))/(sqrt(-SCInput))^3;
-        C = (cosh(sqrt(-SCInput)) - 1)/(-SCInput);
-    else
-        S = 1/6;
-        C = 1/2;
+for i = 1:steps
+    while 1
+        SCInput = alpha0 * x^2; %Input to the S and C functions
+        
+        %Determine S and C functions according to input value
+        if SCInput > 10^-7
+            S = (sqrt(SCInput) - sin(sqrt(SCInput)))/(sqrt(SCInput))^3;
+            C = (1 - cos(sqrt(SCInput)))/SCInput;
+        elseif SCInput < -10^-7
+            S = (sinh(sqrt(-SCInput)) - sqrt(-SCInput))/(sqrt(-SCInput))^3;
+            C = (cosh(sqrt(-SCInput)) - 1)/(-SCInput);
+        else
+            S = 1/6;
+            C = 1/2;
+        end
+        
+        %Find xnew = x - F(x)/F'(x) where F(x) = G(x) - K
+        G = (dot(r0, v0)/sqrt(mu))*x^2*C + (1-norm(r0)*alpha0)*x^3*S + norm(r0)*x;
+        K = sqrt(mu)*dt*i;
+        F = G - K;
+        Fprime = (dot(r0, v0)/sqrt(mu))*(x - alpha0*x^3*S) + (1 - norm(r0)*alpha0)*x^2*C + norm(r0);
+        xnew = x - (F/Fprime);
+        
+        %If xnew is within tolerance of x, break and solve for r(t) and v(t)
+        %If not, continue iterating
+        if abs(x - xnew) < tolerance
+            break
+        end
+        x = xnew;
     end
     
-    %Find xnew = x - F(x)/F'(x) where F(x) = G(x) - K
-    G = (dot(r0, v0)/sqrt(mu))*x^2*C + (1-norm(r0)*alpha0)*x^3*S + norm(r0)*x;
-    K = sqrt(mu)*dt;
-    F = G - K;
-    Fprime = (dot(r0, v0)/sqrt(mu))*(x - alpha0*x^3*S) + (1 - norm(r0)*alpha0)*x^2*C + norm(r0);
-    xnew = x - (F/Fprime);
-    
-    %If xnew is within tolerance of x, break and solve for r(t) and v(t)
-    %If not, continue iterating
-    if abs(x - xnew) < tolerance
-        break
-    end
-    x = xnew;
-    
-    rt = (1 - ((x^2/norm(r0))*C))*r0 + (dt - ((x^3/sqrt(mu))*S))*v0; %Position vector (km)
-    plot_x(end + 1) = rt(1);
-    plot_y(end + 1) = rt(2);
-    plot_z(end + 1) = rt(3);
+    %Determine new positiona and velocity vectors at time step t
+    rt = (1 - ((x^2/norm(r0))*C))*r0 + (dt*i - ((x^3/sqrt(mu))*S))*v0; %Position vector (km)
+    plot_x(i + 1) = rt(1);
+    plot_y(i + 1) = rt(2);
+    plot_z(i + 1) = rt(3);
 end
 
 %Determine new positiona and velocity vectors after dt seconds
-rt = (1 - ((x^2/norm(r0))*C))*r0 + (dt - ((x^3/sqrt(mu))*S))*v0; %Position vector (km)
-plot_x(end + 1) = rt(1);
-plot_y(end + 1) = rt(2);
-plot_z(end + 1) = rt(3);
+% rt = (1 - ((x^2/norm(r0))*C))*r0 + (dt - ((x^3/sqrt(mu))*S))*v0; %Position vector (km)
+% plot_x(end + 1) = rt(1);
+% plot_y(end + 1) = rt(2);
+% plot_z(end + 1) = rt(3);
 % fprintf('The position vector after dt = %f sec is r(t) = (%f, %f, %f) km\n', dt, rt(1), rt(2), rt(3));
-vt = (sqrt(mu)/(norm(rt)*norm(r0)))*(alpha0*x^3*S - x)*r0 + (1-((x^2/norm(rt))*C))*v0; %Velocity vector (km/s)
+% vt = (sqrt(mu)/(norm(rt)*norm(r0)))*(alpha0*x^3*S - x)*r0 + (1-((x^2/norm(rt))*C))*v0; %Velocity vector (km/s)
 % fprintf('The velocity vector after dt = %f sec is v(t) = (%f, %f, %f) km/s\n', dt, vt(1), vt(2), vt(3));
 
 %Plot orbit
