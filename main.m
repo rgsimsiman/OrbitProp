@@ -1,5 +1,4 @@
-%%% Main script called from executable %%%
-clear; % Clear variables
+function err = main()
 
 try
     % Create input UI
