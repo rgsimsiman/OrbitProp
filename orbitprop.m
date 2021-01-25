@@ -204,6 +204,7 @@ end
 
 %Plot orbit
 plot3(plot_x, plot_y, plot_z);
+%title(['Final vector: ' num2str(rt(1)) ', ' num2str(rt(2)) ', ' num2str(rt(3))]); 
 
 % %Construct table of answers
 % row1 = {orbit_shape(1)}; %State orbit shape
