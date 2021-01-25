@@ -14,8 +14,8 @@ default_position = '';
 default_velocity = '';
 default_centralbody = 'Earth';
 [current_year, current_month, current_day] = ymd(datetime(clock));
-default_start = [datestr(datetime(y, m, d)) ' 00:00:00'];
-default_stop = [datestr(datetime(y, m, d) + days(1)) ' 00:00:00'];
+default_start = [datestr(datetime(current_year, current_month, current_day)) ' 00:00:00'];
+default_stop = [datestr(datetime(current_year, current_month, current_day) + days(1)) ' 00:00:00'];
 default_timestep = '';
 definput = {default_position, default_velocity, default_centralbody, ...
     default_start, default_stop, default_timestep};
