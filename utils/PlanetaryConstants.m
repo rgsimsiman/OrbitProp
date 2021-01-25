@@ -65,7 +65,7 @@ try
                 PlanetaryConstants(i).R = 696000;
             otherwise
                 error(['The following body is not yet supported: ' ...
-                    bodies{i} '. Add the body and its constants to PlanetaryConstants.']);
+                    bodies{i} '. Add the body and its constants to PlanetaryConstants utility function.']);
         end
     end
     err = [];

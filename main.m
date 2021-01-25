@@ -56,7 +56,8 @@ try
     if ~isempty(err)
         rethrow(err);
     end
-catch ME
-    rethrow(ME);
+	
+	err = [];
+catch err
 end
     
