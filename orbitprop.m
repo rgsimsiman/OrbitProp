@@ -1,4 +1,4 @@
-function answer_table = orbitprop(r0, v0, centralbody, dt)
+function orbitprop(r0, v0, centralbody, dt)
 %Name: orbitprop
 %Author: Rob Simsiman
 %
@@ -12,9 +12,6 @@ function answer_table = orbitprop(r0, v0, centralbody, dt)
 %           v0 - initial velocity vector
 %           centralbody - string indicating the central body
 %           dt - change in time
-%
-%Outputs:   answer_table - Table of required answers per ASTE 580 Computer
-%                           Project Handout
 
 %Set constants of central body
 addpath(genpath('./utils'));
