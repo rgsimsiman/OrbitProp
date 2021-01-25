@@ -204,6 +204,14 @@ end
 
 %Plot orbit
 plot3(plot_x, plot_y, plot_z);
+hold on;
+
+%Plot central body
+[centralbody_x, centralbody_y, centralbody_z] = sphere;
+centralbody_x = centralbody_x * R;
+centralbody_y = centralbody_y * R;
+centralbody_z = centralbody_z * R;
+surf(centralbody_x, centralbody_y, centralbody_z);
 %title(['Final vector: ' num2str(rt(1)) ', ' num2str(rt(2)) ', ' num2str(rt(3))]); 
 
 % %Construct table of answers
