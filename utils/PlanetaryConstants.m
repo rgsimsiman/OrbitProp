@@ -31,35 +31,35 @@ function PlanetaryConstants = PlanetaryConstants(bodies)
     
     for i = 1:length(bodies)
         PlanetaryConstants(i).Body = bodies{i};
-        switch bodies{i}
-            case 'Mercury'
+        switch lower(bodies{i})
+            case 'mercury'
                 PlanetaryConstants(i).Mu = 22032.08;
                 PlanetaryConstants(i).R = 2440.53;
-            case 'Venus'
+            case 'venus'
                 PlanetaryConstants(i).Mu = 324858.599;
                 PlanetaryConstants(i).R = 6051.8;
-            case 'Earth'
+            case 'earth'
                 PlanetaryConstants(i).Mu = 398600.433;
                 PlanetaryConstants(i).R = 6378.1366;
-            case 'Mars'
+            case 'mars'
                 PlanetaryConstants(i).Mu = 42828.314;
                 PlanetaryConstants(i).R = 3396.19;
-            case 'Jupiter'
+            case 'jupiter'
                 PlanetaryConstants(i).Mu = 126712767.858;
                 PlanetaryConstants(i).R = 71492;
-            case 'Saturn'
+            case 'saturn'
                 PlanetaryConstants(i).Mu = 37940626.061;
                 PlanetaryConstants(i).R = 60268;
-            case 'Uranus'
+            case 'uranus'
                 PlanetaryConstants(i).Mu = 5794549.007;
                 PlanetaryConstants(i).R = 25559;
-            case 'Neptune'
+            case 'neptune'
                 PlanetaryConstants(i).Mu = 6836534.064;
                 PlanetaryConstants(i).R = 24764;
-            case 'Pluto'
+            case 'pluto'
                 PlanetaryConstants(i).Mu = 981.601;
                 PlanetaryConstants(i).R = 1188.3;
-            case 'Sun'
+            case 'sun'
                 PlanetaryConstants(i).Mu = 132712440017.987;
                 PlanetaryConstants(i).R = 696000;
             otherwise
